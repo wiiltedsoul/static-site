@@ -1,23 +1,20 @@
+import os
 import shutil
-from pathlib import Path
 
-def recursive_copy(src, dst):
-    if not dst.is_dir():
-        dst.mkdir(parents=True, exist_ok=True)
-    for item in src.iterdir():
-        if item.is_dir():
-            new_dst = dst / item.name
-            new_dst.mkdir(exist_ok=True)
-            recursive_copy(item, new_dst)
-        else:
-            shutil.copy2(item, dst / item.name)
+from copystatic import copy_files_recursive
+
+
+dir_path_static = "./static"
+dir_path_public = "./public"
+
 
 def main():
-    src = Path("static")
-    dst = Path("public")
-    if dst.exists():
-        shutil.rmtree(dst)
-    recursive_copy(src, dst)
+    print("Deleting public directory...")
+    if os.path.exists(dir_path_public):
+        shutil.rmtree(dir_path_public)
 
-if __name__ == "__main__":
-    main()
+    print("Copying static files to public directory...")
+    copy_files_recursive(dir_path_static, dir_path_public)
+
+
+main()
