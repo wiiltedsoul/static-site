@@ -18,3 +18,6 @@ def main():
     if dst.exists():
         shutil.rmtree(dst)
     recursive_copy(src, dst)
+
+if __name__ == "__main__":
+    main()
