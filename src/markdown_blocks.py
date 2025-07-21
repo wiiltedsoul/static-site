@@ -157,27 +157,4 @@ def extract_title(markdown):
         for line in lines:
             if line.startswith("# ") and not line.startswith("##"):
                 return line[2:].strip()
-
-def generate_page(from_path, template_path, dest_path):
-    # prints message "Generating page from from_path to dest_path using template_path"
-    print(f"Generating page from {from_path} to {dest_path} using {template_path}")
-    # read markdown file at from_path
-    with open(from_path, "r") as f:
-        markdown = f.read()
-    # read template fil at template_path
-    with open(template_path, "r") as f:
-        template = f.read()
-    # use markdown_to_html_node and .to_html() to convert markdown to html
-    html_node = markdown_to_html_node(markdown)
-    html = html_node.to_html()
-    # use extract_title to get the title from markdown
-    title = extract_title(markdown)
-    # replace {{ Title }} and {{ Content }} in template with title and html
-    html = template.replace("{{ Title }}", title).replace("{{ Content }}", html)
-    # write html to dest_path and create directories if they don't exist
-    import os
-    os.makedirs(os.path.dirname(dest_path), exist_ok=True)
-    with open(dest_path, "w") as f:
-        f.write(html)
-    print(f"Page generated at {dest_path}")
-    
+            
