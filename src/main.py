@@ -2,7 +2,7 @@ import os
 import shutil
 
 from copystatic import copy_files_recursive
-from gencontent import generate_page
+from gencontent import *
 
 dir_path_static = "./static"
 dir_path_public = "./public"
@@ -19,11 +19,9 @@ def main():
     copy_files_recursive(dir_path_static, dir_path_public)
 
     print("Generating page...")
-    generate_page(
-        os.path.join(dir_path_content, "index.md"),
-        template_path,
-        os.path.join(dir_path_public, "index.html"),
-    )
+    # use generate_pages_recursive to generate a page for each markdown file in content directory and write to public directory
+    generate_pages_recursive(dir_path_content, template_path, dir_path_public)
+    print("Done.")
 
 
 main()

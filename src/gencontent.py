@@ -32,3 +32,26 @@ def extract_title(md):
         if line.startswith("# "):
             return line[2:]
     raise ValueError("no title found")
+
+
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    '''
+      crawl every entry in content directory
+      for each markdown file, generate new .html using same template.html
+      and save it to public directory with same structure
+      e.g. content/index.md -> public/index.html
+        e.g. content/about/team.md -> public/about/team.html
+    '''
+    for filename in os.listdir(dir_path_content):
+        if filename.endswith(".md"):
+            from_path = os.path.join(dir_path_content, filename)
+            dest_path = os.path.join(dest_dir_path, filename.replace(".md", ".html"))
+            generate_page(from_path, template_path, dest_path)
+        elif os.path.isdir(os.path.join(dir_path_content, filename)):
+            subdir_content = os.path.join(dir_path_content, filename)
+            subdir_public = os.path.join(dest_dir_path, filename)
+            generate_pages_recursive(subdir_content, template_path, subdir_public)
+            # Recursively handle subdirectories
+        else:
+            print(f"Skipping non-markdown file: {filename}")
+    print(f"Generated pages in {dest_dir_path}")
